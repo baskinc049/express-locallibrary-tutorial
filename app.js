@@ -62,9 +62,18 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// H. DB CONNECTION - See config/db.js
+// Importing DB configuration
+const db = require('./config/database');
+
+// Test Connection
+db.authenticate()
+    .then(() => {console.log('Database Connected...')})
+    .catch(err => {console.log(`Error: ${err}`)})
+
 // The Express app object (app) is now fully configured
 
-// H. EXPORT CONFIGURED APP
+// I. EXPORT CONFIGURED APP
 // Export the app object to be supplied to the www entry point (bin/www).
 module.exports = app; 
 
