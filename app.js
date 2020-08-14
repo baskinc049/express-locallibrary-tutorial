@@ -7,6 +7,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// PROTECTING SENSITIVE VARIABLES
+// Making use of environment variables is a way of securing sensitive variables and credentials specific to a project
+// Dotenv is a middle-ware that helps load variables from an .env file.
+// Require the dotenv package and inject it into the app's configuration
+require('dotenv').config();
+// process.env now has the keys and values defined in the .env file
+// Ex. process.env.DB_USER, process.env.DB_PASS
+// Be sure to include .env in the .gitignore file to it won't be published to the repo.
 
 // B. Importing modules from ROUTES dir to define particular routes for different parts of the site.
 var indexRouter = require('./routes/index');
