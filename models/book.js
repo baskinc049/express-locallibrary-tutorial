@@ -1,8 +1,8 @@
-// MODEL BASICS
+// A. MODEL BASICS
 // A model is an abstraction (a process of hiding details of implementation in programs and data) that represents a table in the db. It is responsible for managing the data, logic, and rules of the app. It is independent of the UI.
 
 
-// DESIGNING MODELS
+// B. DESIGNING MODELS
 // 1 - What data needs to be stored? 
 /*
     Info about books (title, summary, author, genre, ISBN, if multiple copies are available, availability status). Info about the authors.
@@ -20,56 +20,57 @@
     - Author
 */
 
-// DEFINING & CREATING MODELS
+// C. DEFINING & CREATING MODELS
 // The model will tell the chosen ODM/ORM (Sequelize) about the entity it represents, such as name of the table in the db, its columns, and their data types.
-const Sequelize = require('sequelize');
-const db = require('../config/database');
 
 // A model in Sequelize has a name, it doesn't have the be the same name as the table it represents.
 // By convention models have singular names, while tables have pluralized names.
+    /*
+        const User = sequelize.define('User', {
+        // Model attributes are defined here
+        firstName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        lastName: {
+            type: DataTypes.STRING
+            // allowNull defaults to true
+        }
+        }, {
+        // Other model options go here
+        });
+    */
 
-/*
-    const User = sequelize.define('User', {
-    // Model attributes are defined here
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    lastName: {
-        type: DataTypes.STRING
-        // allowNull defaults to true
-    }
-    }, {
-    // Other model options go here
-    });
-*/
+// Auto-generating Models (w/Out Associations) 
+// https://github.com/sequelize/sequelize/issues/339#issuecomment-10613291
+    /*
+    sequelize.getQueryInterface().describeTable(tableName).then( … )
+    // => this will result in the structure of a table with all it's attributes
+
+    sequelize.getQueryInterface().showAllTables().then( … )
+    // => this will result in an array with all existing table names
+    */
+
+const Sequelize = require('sequelize');
 
 // Setup Book Model for Books table
-const Book = db.define('book', {
+const Book = Sequelize.define('Book', {
     // Table columns are defined by the object that is given as the second argument
     title: {
         type: Sequelize.STRING,
         allowNull: false
     },
     author: {
-        type: ,
+        type: Sequelize.STRING,
         references: {
             // This is a reference to another model
             model: Author,
-      
             // This is the column name of the referenced model
-            key: 'id',
-      
-            // With PostgreSQL, it is optionally possible to declare when to check the foreign key constraint, passing the Deferrable type.
-            deferrable: Deferrable.INITIALLY_IMMEDIATE
-            // Options:
-            // - `Deferrable.INITIALLY_IMMEDIATE` - Immediately check the foreign key constraints
-            // - `Deferrable.INITIALLY_DEFERRED` - Defer all foreign key constraint check to the end of a transaction
-            // - `Deferrable.NOT` - Don't defer the checks at all (default) - This won't allow you to dynamically change the rule in a transaction
-          }
+            key: 'id' // TODO - Need Full Name (first_name + family_name) of Author
+        }
     },
     summary: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING, 
         allowNull: false
     },
     ISBN: {
@@ -77,23 +78,30 @@ const Book = db.define('book', {
         allowNull: false
     },
     genre: {
-        type: ,
+        type: Sequelize.STRING,
         references: {
             // This is a reference to another model
             model: Genre,
-      
             // This is the column name of the referenced model
-            key: 'id',
-      
-            // With PostgreSQL, it is optionally possible to declare when to check the foreign key constraint, passing the Deferrable type.
-            deferrable: Deferrable.INITIALLY_IMMEDIATE
-            // Options:
-            // - `Deferrable.INITIALLY_IMMEDIATE` - Immediately check the foreign key constraints
-            // - `Deferrable.INITIALLY_DEFERRED` - Defer all foreign key constraint check to the end of a transaction
-            // - `Deferrable.NOT` - Don't defer the checks at all (default) - This won't allow you to dynamically change the rule in a transaction
-          }
+            key: 'name'
+        },
+        allowNull: false
     }
-})
+}, {
+    // Other model options go here
+});
 
-// Export model
+
+// Book to Author Relationship
+// One-to-Many Relationship exists between Book and Author
+// with the FK being defined in Source Model Books.
+Book.hasMany(Author, {
+   foreignKey: 'id' 
+});
+
+
+// Book to Genre Relationship
+
+
+// D. EXPORT MODEL
 module.exports = Book;

@@ -19,6 +19,7 @@ require('dotenv').config();
 // B. Importing modules from ROUTES dir to define particular routes for different parts of the site.
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var catalogRouter = require('./routes/catalog');
 
 // C. Create the APP OBJECT using the above imported express module.
 var app = express();
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Adding route-handling code to the request chain.
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/catalog', catalogRouter);
 
 // G. ADDITIONAL MIDDLEWARE
 // Hangler methods for HTTP 404 responses.
