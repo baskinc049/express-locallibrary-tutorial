@@ -9,38 +9,39 @@ const express = require('express');
 const router = express.Router();
 
 // Require Controllers
-var book_controller = require('../controllers/bookController'); 
+const book_controller = require('../controllers/bookController'); 
+const author_controller = require('../controllers/authorController');
+const genre_controller = require('../controllers/genreController');
+const book_instance_controller = require('../controllers/bookInstanceController');
 
+// *** BOOK ROUTES *** //
 
 // Catalog Homepage
 router.get('/', book_controller.index);
 
-// *** BOOK ROUTES ***
+// GET All Books
+router.get('/books', book_instance_controller.book_list);
 
-// All Books
-router.get('/books', (req, res) => {
-    res.send('List of all Books...')
-});
+// GET Book by ID
+router.get('/books/:id', book_instance_controller.book_detail);
 
-// Book by ID
-router.get('/books/:id', (req, res) => {
-    res.send(`Requested a book with id of ${req.params.id}`)
-});
 
-// *** GENRE ROUTES ***
+// *** GENRE ROUTES *** //
 
 // All Genres
-router.get('/genre', (req, res) => {
-    res.send('List of all Genres...')
-});
+router.get('/genre', genre_controller.genre_list);
 
 // Genre by Name
-router.get('/genre/:name', (req, res) => {
-    res.send(`Requested a book with id of ${req.params.name}`)
-});
+router.get('/genre/:name', genre_controller.genre_detail);
 
 
-// *** AUTHOR ROUTES ***
+// *** AUTHOR ROUTES *** //
+
+// All Authors
+router.get('/author', author_controller.author_list);
+
+// Authors by Name
+router.get('/author/:id', author_controller.author_detail);
 
 
 module.exports = router;

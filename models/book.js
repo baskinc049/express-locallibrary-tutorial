@@ -62,12 +62,13 @@ const Book = Sequelize.define('Book', {
     },
     author: {
         type: Sequelize.STRING,
+        /*
         references: {
             // This is a reference to another model
             model: Author,
             // This is the column name of the referenced model
             key: 'id' // TODO - Need Full Name (first_name + family_name) of Author
-        }
+        }*/
     },
     summary: {
         type: Sequelize.STRING, 
@@ -79,12 +80,12 @@ const Book = Sequelize.define('Book', {
     },
     genre: {
         type: Sequelize.STRING,
-        references: {
+        /*references: {
             // This is a reference to another model
             model: Genre,
             // This is the column name of the referenced model
             key: 'name'
-        },
+        },*/
         allowNull: false
     }
 }, {

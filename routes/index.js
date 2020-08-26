@@ -5,7 +5,8 @@ const db = require('../config/database');
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Express' });
+  //res.render('index', { title: 'Express' });
+  res.redirect('/catalog');
 });
 
 // https://stackoverflow.com/questions/14669669/how-to-parse-variables-in-querystring-using-express

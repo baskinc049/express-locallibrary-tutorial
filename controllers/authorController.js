@@ -6,7 +6,7 @@ exports.author_list = (req, res) => {
 };
 
 // Display Detail Page for a specific Author
-exports.author_list = (req, res) => {
+exports.author_detail = (req, res) => {
     res.send("NOT IMPLEMENTED: Author Profile: " + req.params.id);
 };
 
